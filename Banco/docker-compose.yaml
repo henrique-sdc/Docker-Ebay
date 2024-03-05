@@ -1,0 +1,36 @@
+# docker compose up -d --build --force-recreate
+version: '3.8'
+name: db-ebay
+
+services:
+
+  db-postgres:
+    container_name: db-postgres
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=db-ebay
+    volumes:
+      - ./volume/postgres/data:/var/lib/postgresql/data
+    networks:
+      - private-network
+
+  db-mysql:
+    container_name: db-mysql
+    image: mysql:latest
+    networks:
+      - private-network
+
+  redis:
+    container_name: db-redis
+    image: redis:latest
+    networks:
+      - private-network
+
+networks:
+  private-network:
+    driver: bridge
+
